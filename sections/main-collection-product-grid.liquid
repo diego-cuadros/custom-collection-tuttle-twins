@@ -34,23 +34,23 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-  
+
   .collection__view-more {
     margin-top: 5rem;
     margin-bottom: 2rem;
   }
-  
+
   .view-more-button {
     min-width: 20rem;
     min-height: 4.5rem;
     position: relative;
   }
-  
+
   .view-more-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
-  
+
   .view-more-loading {
     display: inline-flex;
     align-items: center;
@@ -187,18 +187,33 @@
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
+                  {% unless template.suffix == 'enhanced-cards-bottomless' %}
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  {% else %}
+                    {% render 'custom-card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  {% endunless %}
                 </li>
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
@@ -212,7 +227,9 @@
                   data-total-pages="{{ paginate.pages }}"
                   data-collection-url="{{ collection.url }}"
                   data-section-id="{{ section.id }}"
-                  {% if paginate.current_page >= paginate.pages %}style="display: none;"{% endif %}
+                  {% if paginate.current_page >= paginate.pages %}
+                    style="display: none;"
+                  {% endif %}
                 >
                   <span class="view-more-text">View More Products</span>
                   <span class="view-more-loading" style="display: none;">
@@ -232,11 +249,11 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const viewMoreButton = document.querySelector('.view-more-button');
-    
+
     if (viewMoreButton) {
-      viewMoreButton.addEventListener('click', async function() {
+      viewMoreButton.addEventListener('click', async function () {
         const button = this;
         const loadingSpinner = button.querySelector('.view-more-loading');
         const buttonText = button.querySelector('.view-more-text');
@@ -244,57 +261,57 @@
         const totalPages = parseInt(button.dataset.totalPages);
         const collectionUrl = button.dataset.collectionUrl;
         const sectionId = button.dataset.sectionId;
-        
+
         // Show loading state
         buttonText.style.display = 'none';
         loadingSpinner.style.display = 'inline-block';
         button.disabled = true;
-        
+
         try {
           // Fetch the next page
           const nextPage = currentPage + 1;
           const response = await fetch(`${collectionUrl}?page=${nextPage}&section_id=${sectionId}`);
           const html = await response.text();
-          
+
           // Parse the response
           const parser = new DOMParser();
           const newDocument = parser.parseFromString(html, 'text/html');
-          
+
           // Find the product grid in the response
           const newProducts = newDocument.querySelectorAll(`#product-grid[data-id="${sectionId}"] > li`);
           const existingGrid = document.querySelector(`#product-grid[data-id="${sectionId}"]`);
-          
+
           // Append new products with animation
           newProducts.forEach((product, index) => {
             // Clone the product element
             const productClone = product.cloneNode(true);
-            
+
             // Add animation classes if they exist
             if (window.settings && window.settings.animations_reveal_on_scroll) {
               productClone.classList.add('scroll-trigger', 'animate--slide-in');
               const currentItemCount = existingGrid.children.length;
               productClone.style.setProperty('--animation-order', currentItemCount + index + 1);
             }
-            
+
             existingGrid.appendChild(productClone);
           });
-          
+
           // Re-initialize any necessary product card functionality
           if (window.Shopify && window.Shopify.PaymentButton) {
             window.Shopify.PaymentButton.init();
           }
-          
+
           // Re-initialize quick add if needed
           const quickAddButtons = existingGrid.querySelectorAll('[data-product-form]');
-          quickAddButtons.forEach(form => {
+          quickAddButtons.forEach((form) => {
             if (window.ProductForm) {
               new window.ProductForm(form);
             }
           });
-          
+
           // Update button state
           button.dataset.currentPage = nextPage;
-          
+
           // Hide button if we've reached the last page
           if (nextPage >= totalPages) {
             button.style.display = 'none';
@@ -304,7 +321,7 @@
             loadingSpinner.style.display = 'none';
             button.disabled = false;
           }
-          
+
           // Update product count if it exists
           const productCount = document.querySelector('#ProductCountDesktop');
           if (productCount) {
@@ -313,7 +330,6 @@
             const updatedText = countText.replace(/\d+ of/, `${totalProducts} of`);
             productCount.textContent = updatedText;
           }
-          
         } catch (error) {
           console.error('Error loading more products:', error);
           // Reset button state on error
