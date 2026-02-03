@@ -1,3 +1,30 @@
+.product-grid:not(.ssky-hide-text-content) .grid__item:hover {
+  background-color: none !important;
+  border: none !important;
+}
+
+.ssky-quick-add.quick-add {
+  position: relative !important;
+  display: block !important;
+}
+
+.grid__item {
+  background-color: none !important;
+  border: none !important;
+}
+
+.product-grid:not(.ssky-hide-text-content) .grid__item:hover {
+  background: none !important;
+  border: none !important;
+}
+
+.product-grid:not(.ssky-hide-text-content) .grid__item:hover .card__inner,
+.product-grid:not(.ssky-hide-text-content)
+  .grid__item:hover
+  .card__information {
+  opacity: 1 !important;
+}
+
 .dc_age-tag {
   padding: 4px 8px;
   border-radius: 100px;
