@@ -53,6 +53,12 @@
 
   <div class="card-wrapper product-card-wrapper">
     ENHANCED PRODUCT CARDS
+    {% comment %}
+      CORRECT USAGE OF METAFIELDS
+      <p>image url: {{ card_product.metafields.custom.collection_custom_image | image_url: width: 800 }}</p>
+      <p>Age tag: {{ card_product.metafields.custom.custom_collection_age_tag.value }}</p>
+      <div>Product description: {{ card_product.metafields.custom.custom_collection_description | metafield_tag }}</div>
+    {% endcomment %}
     <div
       class="
         card card--{{ settings.card_style }}
@@ -69,25 +75,35 @@
         class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
-        {%- if card_product.featured_media -%}
-          <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
-            <div class="media media--transparent media--hover-effect">
-              {{
-                card_product.featured_media
-                | image_url: width: 640
-                | image_tag: class: 'motion-reduce', widths: '160, 320, 640'
-              }}
-
-              {%- if card_product.media[1] != null and show_secondary_image -%}
+        {% if card_product.metafields.custom.collection_custom_image != blank %}
+          <div class="card__media">
+            {{
+              card_product.metafields.custom.collection_custom_image
+              | image_url: width: 640
+              | image_tag: class: 'motion-reduce', widths: '160, 320, 640'
+            }}
+          </div>
+        {% else %}
+          {%- if card_product.featured_media -%}
+            <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
+              <div class="media media--transparent media--hover-effect">
                 {{
-                  card_product.media[1]
+                  card_product.featured_media
                   | image_url: width: 640
                   | image_tag: class: 'motion-reduce', widths: '160, 320, 640'
                 }}
-              {%- endif -%}
+
+                {%- if card_product.media[1] != null and show_secondary_image -%}
+                  {{
+                    card_product.media[1]
+                    | image_url: width: 640
+                    | image_tag: class: 'motion-reduce', widths: '160, 320, 640'
+                  }}
+                {%- endif -%}
+              </div>
             </div>
-          </div>
-        {%- endif -%}
+          {%- endif -%}
+        {% endif %}
         {%- unless hide_text_content == true -%}
           <div class="card__content">
             <div class="card__information">
