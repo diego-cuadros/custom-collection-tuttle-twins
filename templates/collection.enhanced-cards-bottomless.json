@@ -32,7 +32,7 @@
       "settings": {
         "products_per_page": 8,
         "columns_desktop": 3,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-7a93b9b3-49e1-4c5e-9e9a-d65bd45d5a5d",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": false,
@@ -44,7 +44,8 @@
         "enable_sorting": false,
         "columns_mobile": "2",
         "padding_top": 12,
-        "padding_bottom": 12
+        "padding_bottom": 12,
+        "tag_color": "#000000"
       }
     }
   },

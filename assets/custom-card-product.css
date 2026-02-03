@@ -9,12 +9,13 @@
 }
 
 .grid__item {
-  background-color: none !important;
+  background-color: #ffffff !important;
   border: none !important;
 }
 
 .product-grid:not(.ssky-hide-text-content) .grid__item:hover {
-  background: none !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
   border: none !important;
 }
 
