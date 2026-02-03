@@ -1,0 +1,559 @@
+{% comment %}
+  TT Guidebook description - metaobject-driven text + image block
+  Uses metaobject "guidebook_descriptions" with fields: heading (text), text (richtext), image (file)
+{% endcomment %}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+
+  assign merging_with_section_below = false
+  assign show_as_card = false
+  assign narrow_width = false
+
+  if section.settings.merging_with_section_below == true
+    assign merging_with_section_below = true
+  elsif section.settings.show_as_card == true
+    assign show_as_card = true
+  elsif section.settings.narrow_width == true
+    assign narrow_width = true
+  endif
+
+  assign gd = section.settings.guidebook_description
+-%}
+
+{%- style -%}
+  {%- if section.settings.background_image != blank -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      position: relative;
+      background-image: url({{ section.settings.background_image | image_url }});
+      background-position: {{ section.settings.background_position }};
+      background-size: {{ section.settings.background_size }};
+      background-repeat: no-repeat;
+    }
+    
+    {%- if section.settings.background_overlay -%}
+      .ssky-text-image-block-{{ section.id }} .ssky-text-image-block:after {
+        content: '';
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background-color: {{ section.settings.background_overlay_color }};
+        opacity: {{ section.settings.background_overlay_opacity | divided_by: 100.0 }};
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      .ssky-text-image-block-{{ section.id }} .ssky-text-image-block > * {
+        position: relative;
+        z-index: 2;
+      }
+    {%- endif -%}
+  {%- endif -%}
+
+  .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__image-column {
+    width: 100%;
+  }
+
+  {% unless section.settings.rounded %}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__image-column .ssky-text-image-block__image > .media {
+      border-radius: 0;
+    }
+  {% endunless %}
+
+  @media screen and (min-width: 750px) {
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {%- if section.settings.top_left -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      border-radius: 15vw 0 0 0;
+    }
+  {%- elsif section.settings.top_right -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      border-radius: 0 15vw 0 0;
+    }
+  {%- elsif section.settings.bottom_right -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      border-radius: 0 0 15vw 0;
+    }
+  {%- elsif section.settings.bottom_left -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      border-radius: 0 0 0 15vw;
+    }
+  {%- endif -%}
+
+  {%- if section.settings.corner_color != blank -%}
+    .ssky-text-image-block-{{ section.id }} {
+      background-color: {{ section.settings.corner_color }};
+    }
+  {%- endif -%}
+
+  {%- if merging_with_section_below -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block {
+      z-index: 1;
+    }
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__wrapper {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    }
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__layout-merging-color {
+      background-color: {{ section.settings.merging_color }};
+    }
+  {%- endif -%}
+
+  {%- if show_as_card -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__wrapper {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      border-radius: 45px;
+    }
+    @media screen and (min-width: 750px) {
+      .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__wrapper {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endif -%}
+
+  {%- if narrow_width -%}
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__wrapper {
+      max-width: 1100px;
+    }
+  {%- endif -%}
+
+  .ssky-text-image-block-{{ section.id }} .ssky-text-block__heading {
+    margin-bottom: 1rem;
+  }
+
+  .ssky-text-image-block-{{ section.id }} .ssky-text-block__text {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Fix link colors in metaobject text */
+  .ssky-text-image-block-{{ section.id }} .ssky-text-block__text a {
+    color: #da5846 !important;
+  }
+
+  .ssky-text-image-block-{{ section.id }} .ssky-text-block__text a:hover {
+    color: #da5846 !important;
+    text-decoration: underline;
+  }
+
+  /* Desktop column sizing based on image_size */
+  @media screen and (min-width: 990px) {
+    .ssky-text-image-block-{{ section.id }} .ssky-text-image-block__wrapper {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    /* Small: image narrow, text wide */
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-small .ssky-text-image-block__image-column {
+      flex: 0 0 35%;
+      max-width: 35%;
+    }
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-small .ssky-text-image-block__text-column {
+      flex: 0 0 65%;
+      max-width: 65%;
+    }
+
+    /* Small+: image a bit wider */
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-smallplus .ssky-text-image-block__image-column {
+      flex: 0 0 40%;
+      max-width: 40%;
+    }
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-smallplus .ssky-text-image-block__text-column {
+      flex: 0 0 60%;
+      max-width: 60%;
+    }
+
+    /* Medium: balanced */
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-medium .ssky-text-image-block__image-column {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-medium .ssky-text-image-block__text-column {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    /* Large: image dominates */
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-large .ssky-text-image-block__image-column {
+      flex: 0 0 60%;
+      max-width: 60%;
+    }
+    .ssky-text-image-block-{{ section.id }} .image-size-ssky-large .ssky-text-image-block__text-column {
+      flex: 0 0 40%;
+      max-width: 40%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ssky-text-image-block-{{ section.id }}">
+  <div class="ssky-text-image-block content-container color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+    {%- if merging_with_section_below -%}
+      <div class="ssky-text-image-block__layout-merging{% if section.settings.merge_with_section_above %} ssky-text-image-block__layout-merging-above page-width{% endif %}">
+        <div class="color-{{ section.settings.color_scheme_layout_merging }} gradient">
+    {%- endif -%}
+
+    {%- if show_as_card -%}<div class="page-width">{%- endif -%}
+    <div class="ssky-text-image-block__wrapper {{ section.settings.image_position }} image-size-ssky-{{ section.settings.image_size }} page-width{%- if show_as_card %} color-{{ section.settings.color_scheme_show_as_card }} gradient{%- endif -%}">
+
+      {%- comment -%} IMAGE COLUMN {%- endcomment -%}
+      <div class="ssky-text-image-block__image-column">
+
+        {%- liquid
+          assign active_image = nil
+
+          if gd and gd.image != blank
+            assign active_image = gd.image
+          elsif section.settings.image != blank
+            assign active_image = section.settings.image
+          endif
+
+          assign padding_bottom = 100
+
+          if active_image and active_image.aspect_ratio
+            if merging_with_section_below or narrow_width
+              assign padding_bottom = 1 | divided_by: active_image.aspect_ratio | times: 100 | at_most: 120
+            elsif section.settings.image_size == 'small'
+              assign padding_bottom = 1 | divided_by: active_image.aspect_ratio | times: 100 | at_most: 150
+            elsif section.settings.image_size == 'smallplus'
+              assign padding_bottom = 1 | divided_by: active_image.aspect_ratio | times: 100 | at_most: 135
+            elsif section.settings.image_size == 'medium'
+              assign padding_bottom = 1 | divided_by: active_image.aspect_ratio | times: 100 | at_most: 120
+            else
+              assign padding_bottom = 1 | divided_by: active_image.aspect_ratio | times: 100 | at_most: 105
+            endif
+          endif
+        -%}
+
+        <div class="ssky-text-image-block__image">
+          <div
+            class="{%- if active_image -%}media{%- else -%}placeholder{%- endif -%}{%- if section.settings.image_fit %} image-fit{%- endif -%}"
+            style="padding-bottom:{{ padding_bottom }}%;"
+          >
+            {%- if active_image -%}
+              {%- assign widths = '360, 535, 750, 1070, 1500' -%}
+              {%- capture sizes -%}{%- render 'ssky-sizes-attr', width: 'half_width' -%}{%- endcapture -%}
+              {{
+                active_image
+                | image_url: width: 900
+                | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
+              }}
+            {%- else -%}
+              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} TEXT COLUMN {%- endcomment -%}
+      <div class="ssky-text-image-block__text-column">
+        <div class="ssky-text-image-block__blocks ssky-text-block__blocks {{ section.settings.content_alignment }}">
+          {%- if gd -%}
+            {%- if gd.heading != blank -%}
+              <h2 class="ssky-text-block__heading rte h2 weight-bold">
+                {{ gd.heading }}
+              </h2>
+            {%- endif -%}
+
+            {%- if gd.text != blank -%}
+              <div class="ssky-text-block__text rte text-large weight-regular">
+                {{ gd.text | metafield_tag }}
+              </div>
+            {%- endif -%}
+          {%- elsif request.design_mode -%}
+            <p>Select a <strong>Guidebook description</strong> metaobject in the section settings.</p>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+    {%- if show_as_card -%}</div>{%- endif -%}
+
+    {%- if merging_with_section_below -%}
+        </div>
+      </div>
+      <div
+        class="ssky-text-image-block__layout-merging-color {%- if section.settings.merge_with_section_above %} ssky-text-image-block__layout-merging-above{%- endif -%}"
+      ></div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TTm Guidebook description",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content source"
+    },
+    {
+      "type": "metaobject",
+      "id": "guidebook_description",
+      "label": "Guidebook description metaobject",
+      "metaobject_type": "guidebook_descriptions"
+    },
+    {
+      "type": "header",
+      "content": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "options": [
+        { "value": "top left", "label": "Top left" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "top right", "label": "Top right" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "center center", "label": "Center" },
+        { "value": "center right", "label": "Center right" },
+        { "value": "bottom left", "label": "Bottom left" },
+        { "value": "bottom center", "label": "Bottom center" },
+        { "value": "bottom right", "label": "Bottom right" }
+      ],
+      "default": "center center",
+      "label": "Position"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Original size" }
+      ],
+      "default": "cover",
+      "label": "Size"
+    },
+    {
+      "type": "checkbox",
+      "id": "background_overlay",
+      "label": "Add color overlay",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Image & layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback image (used if metaobject image is empty)"
+    },
+    {
+      "type": "checkbox",
+      "id": "rounded",
+      "label": "Rounded image corner",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "image_fit",
+      "label": "t:sections.all.image_fit.label",
+      "default": false,
+      "info": "t:sections.all.image_fit.info"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "options": [
+        { "value": "image-left", "label": "Image left" },
+        { "value": "image-right", "label": "Image right" }
+      ],
+      "default": "image-left",
+      "label": "Image position"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "options": [
+        { "value": "small", "label": "SM" },
+        { "value": "smallplus", "label": "SM+" },
+        { "value": "medium", "label": "MD" },
+        { "value": "large", "label": "LG" }
+      ],
+      "default": "medium",
+      "label": "Image size"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        { "value": "left", "label": "Align left" },
+        { "value": "center", "label": "Align center" },
+        { "value": "right", "label": "Align right" }
+      ],
+      "default": "left",
+      "label": "Text alignment"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Narrow width"
+    },
+    {
+      "type": "checkbox",
+      "id": "narrow_width",
+      "label": "Limit content width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_as_card",
+      "label": "Display as card",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_show_as_card",
+      "label": "Card color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Merging with section below"
+    },
+    {
+      "type": "checkbox",
+      "id": "merging_with_section_below",
+      "label": "Merge with section below",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_layout_merging",
+      "label": "Merging color scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "color",
+      "id": "merging_color",
+      "label": "Merging color",
+      "default": "#bcecf6"
+    },
+    {
+      "type": "header",
+      "content": "Custom class"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Rounded corners (outer)"
+    },
+    {
+      "type": "checkbox",
+      "id": "top_left",
+      "label": "Top left",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "top_right",
+      "label": "Top right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_right",
+      "label": "Bottom right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_left",
+      "label": "Bottom left",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "corner_color",
+      "label": "Corner background color"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TTm Guidebook description"
+    }
+  ]
+}
+{% endschema %}

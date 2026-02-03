@@ -1,0 +1,205 @@
+{%- style -%}
+  .ssky-text-block__buttons-{{block.id}} {
+    text-align:{{ block.settings.alignment }};
+    margin-top: {{ block.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ block.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .ssky-text-block__buttons-{{block.id}} {
+      margin-top: {{ block.settings.margin_top }}px;
+      margin-bottom: {{ block.settings.margin_bottom }}px;
+    }
+  }
+  {% if block.settings.custom_css != blank %}
+    {% assign tt_css = '.ssky-text-block__buttons-' | append: block.id %}
+    {{ block.settings.custom_css | replace: '[TT_CSS]', tt_css }}
+  {% endif %}
+{%- endstyle -%}
+<div class="ssky-text-block__buttons-container ssky-text-block__buttons-{{block.id}}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }}> 
+  {%- assign block_product = block.settings.product -%}   
+  {%- if block.settings.show_price and block_product != blank -%}
+    <div class="ssky-text-block__price" style="margin-bottom: 2rem">
+      {% render 'price', product: block_product, show_compare_at_price: true %}
+    </div>
+  {%- endif -%}
+  <div
+    class="ssky-text-block__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} ssky-text-block__buttons--multiple{% endif %}">
+    {%- if block_product != blank -%}
+      <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>      
+      {%- assign product_form_id = 'product-form-' | append: section.id | append: block_product.id -%}
+      {%- render 'buy-buttons',
+        block: block,
+        product: block_product,
+        product_form_id: product_form_id,
+        section_id: section.id,
+        is_button_large: block.settings.button_large,
+        is_button_full: block.settings.button_full,
+        button_label: block.settings.product_button_label
+      -%}
+    {%- else -%}
+      {%- if block.settings.button_label != blank -%}
+        <a
+          {% if block.settings.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ block.settings.button_link }}"
+          {% endif %}
+          class="button{%- if block.settings.button_large %} button--large{%- else %} button--medium{%- endif -%}{%- if block.settings.button_full %} button--full-width{%- endif -%}{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+        >
+          {{- block.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+      {%- if block.settings.button_label_2 != blank -%}
+        <a
+          {% if block.settings.button_link_2 == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ block.settings.button_link_2 }}"
+          {% endif %}
+          class="button{%- if block.settings.button_large %} button--large{%- else %} button--medium{%- endif -%}{%- if block.settings.button_full %} button--full-width{%- endif -%}{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+        >
+          {{- block.settings.button_label_2 | escape -}}
+        </a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  {%- if block.settings.text_below_buttons != blank -%}
+    <div class="ssky-text-block__text-below-buttons rte" style="color:{{ block.settings.custom_color }}!important; margin-top: 10px;">
+      {{ block.settings.text_below_buttons }}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Button",
+    "settings": [
+      {
+        "type": "select",
+        "id": "alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "label": "Alignment"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_large",
+        "default": false,
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_large.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_full",
+        "default": false,
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_full.label"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "default": "t:sections.ssky_text_block.blocks.button.settings.button_label.default",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_label.label",
+        "info": "t:sections.ssky_text_block.blocks.button.settings.button_label.info"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_link.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_style_secondary",
+        "default": false,
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_style_secondary.label"
+      },
+      {
+        "type": "text",
+        "id": "button_label_2",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_label.label",
+        "info": "t:sections.ssky_text_block.blocks.button.settings.button_label.info"
+      },
+      {
+        "type": "url",
+        "id": "button_link_2",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_link.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_style_secondary_2",
+        "default": false,
+        "label": "t:sections.ssky_text_block.blocks.button.settings.button_style_secondary.label"
+      },
+      {
+        "type": "richtext",
+        "id": "text_below_buttons",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.text_below_buttons.label"
+      },
+      {
+        "type": "color",
+        "id": "custom_color",
+        "label": "Custom text color for text below buttons"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.ssky_text_block.blocks.button.settings.product.header"
+      },
+      {
+        "type": "product",
+        "id": "product",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.product.label",
+        "info": "t:sections.ssky_text_block.blocks.button.settings.product.info"
+      },
+      {
+        "type": "text",
+        "id": "product_button_label",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.product.button_label"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "t:sections.ssky_text_block.blocks.button.settings.product.show_price",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 20
+      },
+      {
+        "type": "liquid",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Always use prefix [TT_CSS] for every CSS example [TT_CSS] .class {margin: 0}. [TT_CSS] will generate block dynamic ID"
+      }
+    ],
+    "presets": [
+      { "name": "Button" }
+    ]
+  }
+{% endschema %}

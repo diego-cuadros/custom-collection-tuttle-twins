@@ -1,0 +1,352 @@
+{{ 'ssky-product-breakdown.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign pb = section.settings.product_breakdown
+
+  assign show_as_card = false
+  assign narrow_width = false
+  if section.settings.show_as_card == true
+    assign show_as_card = true
+    if section.settings.narrow_width == true
+      assign narrow_width = true
+    endif
+  endif
+-%}
+
+{%- style -%}
+  .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {%- if section.settings.top_left -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+      border-radius: 15vw 0 0 0;
+    }
+  {%- elsif section.settings.top_right -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+      border-radius: 0 15vw 0 0;
+    }
+  {%- elsif section.settings.bottom_right -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+      border-radius: 0 0 15vw 0;
+    }
+  {%- elsif section.settings.bottom_left -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown {
+      border-radius: 0 0 0 15vw;
+    }
+  {%- endif -%}
+
+  {%- if section.settings.corner_color != blank -%}
+    .ssky-product-breakdown-{{ section.id }} {
+      background-color: {{ section.settings.corner_color }};
+    }
+  {%- endif -%}
+
+  {%- if show_as_card -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown__wrapper {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      border-radius: 45px;
+    }
+    @media screen and (min-width: 750px) {
+      .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown__wrapper {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endif -%}
+
+  {%- if narrow_width -%}
+    .ssky-product-breakdown-{{ section.id }} .ssky-product-breakdown__wrapper {
+      max-width: 1100px;
+    }
+  {%- endif -%}
+
+  /* Highlight columns control */
+  .ssky-product-breakdown-{{ section.id }} .ssky-text-block__highlights {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.highlight_columns | default: 2 }}, minmax(0, 1fr));
+    column-gap: 2rem;
+    row-gap: 0.75rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ssky-product-breakdown-{{ section.id }} .ssky-text-block__highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ssky-product-breakdown-{{ section.id }}">
+  <div class="ssky-product-breakdown content-container color-{{ section.settings.color_scheme }} gradient">
+    {%- if show_as_card -%}<div class="page-width">{%- endif -%}
+    <div class="ssky-product-breakdown__wrapper ssky-text-block__wrapper page-width{%- if show_as_card %} color-{{ section.settings.color_scheme_show_as_card }} gradient{%- endif -%}">
+
+      {%- comment -%} PRODUCT COLUMN {%- endcomment -%}
+<div class="ssky-product-breakdown__product center">
+  {%- if pb and pb.product and pb.product.value -%}
+    {%- assign block_product = pb.product.value -%}
+    {%- assign product_form_id = 'product-form-' | append: section.id | append: block_product.id -%}
+
+    <div
+      class="ssky-text-block__blocks{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: 1;"
+      {% endif %}
+    >
+      <div
+        class="ssky-product-breakdown__image media image-fit"
+        {%- if block_product.featured_image != blank -%}
+          style="padding-bottom:{{ 1 | divided_by: block_product.featured_image.aspect_ratio | times: 100 | at_most: 120 }}%;"
+        {%- else -%}
+          style="padding-bottom:100%;"
+        {%- endif -%}
+      >
+        {%- if block_product.featured_image != blank -%}
+          {{ block_product.featured_image | image_url: width: 560 | image_tag }}
+        {%- else -%}
+          {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <div class="ssky-product-breakdown__price">
+        {% render 'price', product: block_product, show_compare_at_price: true %}
+      </div>
+
+      {%- render 'buy-buttons',
+        product: block_product,
+        product_form_id: product_form_id,
+        section_id: section.id,
+        block: nil,
+        is_product_column: true,
+        is_button_large: false,
+        button_label: pb.add_to_cart_button_label | default: "Buy the book"
+      -%}
+    </div>
+  {%- elsif request.design_mode -%}
+    <p>Select a <strong>TT Product breakdown</strong> metaobject with a product.</p>
+  {%- endif -%}
+</div>
+
+
+
+      {%- comment -%} CONTENT COLUMN (TEXT + HIGHLIGHTS) {%- endcomment -%}
+      <div class="ssky-product-breakdown__content ssky-text-block__blocks {{ section.settings.content_alignment }}">
+        {%- if pb -%}
+
+          {%- if pb.text != blank -%}
+  <div
+    class="ssky-text-block__text rte text-large weight-semibold{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+      style="--animation-order: 2;"
+    {% endif %}
+  >
+    <div class="rte" style="max-width:100rem;">
+      {{ pb.text | metafield_tag }}
+    </div>
+  </div>
+{%- endif -%}
+
+
+          {%- if pb.highlights and pb.highlights.value and pb.highlights.value.size > 0 -%}
+  <div class="ssky-text-block__highlights-con">
+    <div
+      class="ssky-text-block__highlights{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: 3;"
+      {% endif %}
+    >
+      {%- for item in pb.highlights.value -%}
+        {%- if item != blank -%}
+          <div class="ssky-text-block__highlight">
+            <span class="svg-wrapper">{{ 'icon-checkmark.svg' | inline_asset_content }}</span>
+            <div class="rte">{{ item }}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+
+        {%- elsif request.design_mode -%}
+          <p>Add text and highlights to your <strong>TT Product breakdown</strong> metaobject.</p>
+        {%- endif -%}
+      </div>
+
+    </div>
+    {%- if show_as_card -%}</div>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TTm Product breakdown",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.all.ssky_layouts.info"
+    },
+    {
+      "type": "header",
+      "content": "Content source"
+    },
+    {
+      "type": "metaobject",
+      "id": "product_breakdown",
+      "label": "TT product breakdown metaobject",
+      "metaobject_type": "product_breakdown"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.ssky_layouts.default"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.ssky_text_block.settings.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.ssky_text_block.settings.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.ssky_text_block.settings.content_alignment.options__3.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.ssky_text_block.settings.content_alignment.label"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 72,
+      "max": 120,
+      "step": 1,
+      "label": "t:sections.ssky_text_block.settings.max_width.label",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "highlight_columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Highlight columns (desktop)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.ssky_layouts.card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_as_card",
+      "label": "t:sections.all.ssky_layouts.activate",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_show_as_card",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    },
+    {
+      "type": "checkbox",
+      "id": "narrow_width",
+      "label": "t:sections.all.ssky_layouts.extension.narrow",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 4,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.ssky_round_corners.heading",
+      "info": "t:sections.all.ssky_round_corners.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "top_left",
+      "label": "t:sections.all.ssky_round_corners.top_left",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "top_right",
+      "label": "t:sections.all.ssky_round_corners.top_right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_right",
+      "label": "t:sections.all.ssky_round_corners.bottom_right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_left",
+      "label": "t:sections.all.ssky_round_corners.bottom_left",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "corner_color",
+      "label": "t:sections.all.ssky_round_corners.corner_color"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TTm Product breakdown"
+    }
+  ]
+}
+{% endschema %}

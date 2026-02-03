@@ -1,0 +1,233 @@
+{%- style -%}
+  .ssky-home-main-{{ section.id }} .ssky-home-main {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+  }
+  .ssky-home-main-{{ section.id }} .ssky-home-main__blocks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .ssky-home-main-{{ section.id }} .ssky-home-main__milestones {
+    padding: 16px 0;
+    border-radius: 10px;
+  }
+  @media screen and (min-width: 750px) {
+    .ssky-home-main-{{ section.id }} .ssky-home-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  {%- if section.settings.top_left -%}
+    .ssky-home-main-{{ section.id }} .ssky-home-main {
+      border-radius: 15vw 0 0 0;
+    }
+  {%- elsif section.settings.top_right -%}
+    .ssky-home-main-{{ section.id }} .ssky-home-main {
+      border-radius: 0 15vw 0 0;
+    }
+  {%- elsif section.settings.bottom_right -%}
+    .ssky-home-main-{{ section.id }} .ssky-home-main {
+      border-radius: 0 0 15vw 0;
+    }
+  {%- elsif section.settings.bottom_left -%}
+    .ssky-home-main-{{ section.id }} .ssky-home-main {
+      border-radius: 0 0 0 15vw;
+    }
+  {%- endif -%}
+  {%- if section.settings.corner_color != blank -%}
+    .ssky-home-main-{{ section.id }} {
+      background-color: {{ section.settings.corner_color }};
+    }
+  {%- endif -%}
+{%- endstyle -%}
+<div class="ssky-home-main-{{ section.id }}">
+  <div class="ssky-home-main gradient color-{{ section.settings.color_scheme }}">
+    <div class="page-width">
+      <div class="ssky-home-main__blocks">
+        <div class="ssky-home-main__block-left">
+          {%- for block in section.blocks -%}
+            {% case block.type %}
+              {%- when 'milestones' -%}
+                <div
+                  class="ssky-home-main__milestones color-{{ block.settings.color_scheme_milestones }} gradient"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.title_a != blank -%}
+                    <div class="ssky-home-main__milestone-one">
+                      <div class="ssky-home-main__ms-heading h2">{{ block.settings.title_a }}</div>
+                      <div class="ssky-home-main__ms-text rte">{{ block.settings.text_a }}</div>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.title_b != blank -%}
+                    <div class="ssky-home-main__milestone-two">
+                      <div class="ssky-home-main__ms-heading h2">{{ block.settings.title_b }}</div>
+                      <div class="ssky-home-main__ms-text">{{ block.settings.text_b }}</div>
+                      {%- if block.settings.review_stars != blank -%}
+                        {{ block.settings.review_stars | image_url: width: 200 | image_tag }}
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.icon != blank -%}
+                    <div class="ssky-home-main__milestone-three">
+                      {{ block.settings.icon | image_url: width: 300 | image_tag }}
+                    </div>
+                  {%- endif -%}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TT Milestones",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.ssky_round_corners.heading",
+      "info": "t:sections.all.ssky_round_corners.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "top_left",
+      "label": "t:sections.all.ssky_round_corners.top_left",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "top_right",
+      "label": "t:sections.all.ssky_round_corners.top_right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_right",
+      "label": "t:sections.all.ssky_round_corners.bottom_right",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_left",
+      "label": "t:sections.all.ssky_round_corners.bottom_left",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "corner_color",
+      "label": "t:sections.all.ssky_round_corners.corner_color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestones",
+      "name": "Milestones",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme_milestones",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-2"
+        },
+        {
+          "type": "header",
+          "content": "Milestones One"
+        },
+        {
+          "type": "text",
+          "id": "title_a",
+          "label": "Title",
+          "default": "6 Mil+"
+        },
+        {
+          "type": "richtext",
+          "id": "text_a",
+          "label": "Text",
+          "default": "<p>Copies Sold Worldwide</p>"
+        },
+        {
+          "type": "header",
+          "content": "Milestones Two - Reviews"
+        },
+        {
+          "type": "text",
+          "id": "title_b",
+          "label": "Title",
+          "default": "4,500+"
+        },
+        {
+          "type": "image_picker",
+          "id": "review_stars",
+          "label": "Review Stars"
+        },
+        {
+          "type": "text",
+          "id": "text_b",
+          "label": "Text",
+          "default": "5 Star Reviews"
+        },
+        {
+          "type": "header",
+          "content": "Milestones Three - Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TT Milestones",
+      "blocks": [
+        {
+          "type": "milestones"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

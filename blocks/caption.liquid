@@ -1,0 +1,132 @@
+{%- style -%}
+  .ssky-text-block__caption-{{ block.id }} {
+    color:{{ block.settings.custom_color }};
+    text-align:{{ block.settings.alignment }};
+    margin-top: {{ block.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ block.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }  
+  @media screen and (min-width: 750px) {
+    .ssky-text-block__caption-{{ block.id }} {
+      margin-top: {{ block.settings.margin_top }}px;
+      margin-bottom: {{ block.settings.margin_bottom }}px;
+    }
+  }
+  {% if block.settings.custom_css != blank %}
+    {% assign tt_css = '.ssky-text-block__caption-' | append: block.id %}
+    {{ block.settings.custom_css | replace: '[TT_CSS]', tt_css }}
+  {% endif %}
+{%- endstyle -%}
+<div class="ssky-text-block__caption ssky-text-block__caption-{{ block.id }} {{ block.settings.alignment }} {{ block.settings.text_style }} {{ block.settings.color_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }}>
+  {{ block.settings.caption | escape }}
+</div>
+
+{% schema %}
+  {
+    "name": "Caption",
+    "settings": [
+      {
+        "type": "text",
+        "id": "caption",
+        "default": "t:sections.ssky_text_block.blocks.caption.settings.text.default",
+        "label": "t:sections.ssky_text_block.blocks.caption.settings.text.label"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "label": "Text alignment"
+      },
+      {
+        "type": "color",
+        "id": "custom_color",
+        "label": "Custom text color"
+      },
+      {
+        "type": "select",
+        "id": "text_style",
+        "options": [
+          {
+            "value": "small-semibold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__0.label"
+          },
+          {
+            "value": "small-bold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__1.label"
+          },
+          {
+            "value": "medium-semibold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__2.label"
+          },
+          {
+            "value": "large-semibold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__3.label"
+          },
+          {
+            "value": "large-bold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__4.label"
+          },
+          {
+            "value": "extra-large-bold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__5.label"
+          },
+          {
+            "value": "extra-extra-large-bold",
+            "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.options__6.label"
+          }
+        ],
+        "default": "large-bold",
+        "label": "t:sections.ssky_text_block.blocks.caption.settings.text_style.label",
+        "info": "t:sections.ssky_text_block.blocks.caption.settings.text_style.info"
+      },
+      {
+        "type": "text",
+        "id": "color_class",
+        "label": "t:sections.all.ssky_color_class.label",
+        "default": "t:sections.all.ssky_color_class.default",
+        "info": "t:sections.all.ssky_color_class.info"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 20
+      },
+      {
+        "type": "liquid",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Always use prefix [TT_CSS] for every CSS example [TT_CSS] .class {margin: 0}. [TT_CSS] will generate block dynamic ID"
+      }
+    ],
+    "presets": [
+      { "name": "Caption" }
+    ]
+  }
+{% endschema %}

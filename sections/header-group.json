@@ -1,0 +1,223 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "z_announcement_bar_LKK6Jf": {
+      "type": "z-announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping on Domestic Orders $175+",
+            "link": ""
+          }
+        },
+        "announcement_78BeLz": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Tuttle Rebuttals eBook on Orders $150+",
+            "link": ""
+          }
+        },
+        "announcement_wBLWXe": {
+          "type": "announcement",
+          "settings": {
+            "text": "🎁 Introducing Tuttle Twins Gift Cards! Shop Now!",
+            "link": "shopify://products/tuttle-twins-giftcard"
+          }
+        },
+        "announcement_FreD8T": {
+          "type": "announcement",
+          "disabled": true,
+          "settings": {
+            "text": "Shop Holiday Savings Now 🎁",
+            "link": "shopify://pages/sale"
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0",
+        "announcement_78BeLz",
+        "announcement_wBLWXe",
+        "announcement_FreD8T"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "right_column_mmenu_TWwk7L": {
+          "type": "right_column_mmenu",
+          "settings": {
+            "mega_menu_heading_1": "Best Selling Bundles",
+            "mmenu_icon_for_details": "shopify://shop_images/Frame_7.png",
+            "mmenu_label_for_cta": "Details",
+            "mmenu_best_selling_image_1": "shopify://shop_images/Frame_3.jpg",
+            "mmenu_best_selling_label_1": "Family Starter Pack",
+            "mmenu_best_selling_link_1": "https://www.tuttletwins.com/products/tuttle-twins-family-starter-pack",
+            "mmenu_best_selling_image_2": "shopify://shop_images/Frame_7.jpg",
+            "mmenu_best_selling_label_2": "Combo Pack",
+            "mmenu_best_selling_link_2": "https://www.tuttletwins.com/products/tuttle-twins-combo-pack-plus-free-bonuses",
+            "mmenu_best_selling_image_3": "shopify://shop_images/Frame_8.jpg",
+            "mmenu_best_selling_label_3": "Mega Bundle",
+            "mmenu_best_selling_link_3": "https://www.tuttletwins.com/products/tuttle-twins-mega-bundle-3",
+            "mmenu_best_selling_label_4": "",
+            "mmenu_best_selling_link_4": "",
+            "mega_menu_heading_2": "Best Selling Stories",
+            "mmenu_best_selling_image_5": "shopify://shop_images/c47d9d70d4b0e6e5f1bfa89da822b288ae83fdae.png",
+            "mmenu_best_selling_label_5": "Miraculous Pencil",
+            "mmenu_best_selling_link_5": "https://www.tuttletwins.com/products/the-tuttle-twins-and-the-miraculous-pencil",
+            "mmenu_best_selling_image_6": "shopify://shop_images/Frame_5.jpg",
+            "mmenu_best_selling_label_6": "Learn About The Law",
+            "mmenu_best_selling_link_6": "https://www.tuttletwins.com/products/the-tuttle-twins-learn-about-the-law",
+            "mmenu_best_selling_image_7": "shopify://shop_images/Frame_6.jpg",
+            "mmenu_best_selling_label_7": "Creature From Jekyll Island",
+            "mmenu_best_selling_link_7": "https://www.tuttletwins.com/products/the-tuttle-twins-and-the-creature-from-jekyll-island",
+            "mmenu_best_selling_label_8": "",
+            "mmenu_best_selling_link_8": ""
+          }
+        },
+        "left_mega_menu_desktop_q8CgD8": {
+          "type": "left_mega_menu_desktop",
+          "settings": {
+            "mega_menu_heading": "Shop",
+            "featured_link_1": "shopify://pages/shop-by-age-v2",
+            "featured_link_image_1": "shopify://shop_images/Frame_48102245.jpg",
+            "featured_link_label_1": "Shop By Age",
+            "featured_link_2": "https://www.tuttletwins.com/products/tuttle-twins-book-subscription",
+            "featured_link_image_2": "shopify://shop_images/Frame_1.jpg",
+            "featured_link_label_2": "Monthly Book Club",
+            "featured_link_3": "https://www.tuttletwins.com/pages/academy",
+            "featured_link_image_3": "shopify://shop_images/Frame.jpg",
+            "featured_link_label_3": "Online Academy",
+            "featured_link_4": "https://www.tuttletwins.com/collections/bundles",
+            "featured_link_image_4": "shopify://shop_images/Frame_2.jpg",
+            "featured_link_label_4": "Shop Bundles",
+            "extra_link_1": "shopify://pages/comparison-page",
+            "extra_link_image_1": "shopify://shop_images/Vector.png",
+            "extra_link_label_1": "Compare Bundles",
+            "extra_link_2": "https://www.tuttletwins.com/pages/where-to-start",
+            "extra_link_image_2": "shopify://shop_images/Frame_4.png",
+            "extra_link_label_2": "Not Sure Where To Start?",
+            "cta_link": "shopify://collections/shop-all",
+            "cta_label": "Shop All"
+          }
+        },
+        "shop_grid_k9NkEf": {
+          "type": "shop_grid",
+          "settings": {
+            "heading": "Shop",
+            "img_1": "shopify://shop_images/Frame_48102245.jpg",
+            "label_1": "Shop By Age",
+            "link_1": "shopify://pages/shop-by-age-v2",
+            "img_2": "shopify://shop_images/Frame_2.jpg",
+            "label_2": "Shop Bundles",
+            "link_2": "shopify://collections/bundles",
+            "img_3": "shopify://shop_images/Frame.jpg",
+            "label_3": "Online Academy",
+            "link_3": "https://www.tuttletwins.com/pages/academy",
+            "img_4": "shopify://shop_images/Frame_1.jpg",
+            "label_4": "Monthly Book Club",
+            "link_4": "shopify://products/tuttle-twins-book-subscription",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "custom_menu_pDeFPy": {
+          "type": "custom_menu",
+          "settings": {
+            "bottomless_menu": "bottomless-mobile-menu-1",
+            "use_icons_as_bullets": true,
+            "icon_1": "shopify://shop_images/Vector.png",
+            "use_icon_1": 1,
+            "icon_2": "shopify://shop_images/Frame_4.png",
+            "use_icon_2": 2,
+            "icon_3": "shopify://shop_images/Frame_5.png",
+            "use_icon_3": 3,
+            "icon_4": "shopify://shop_images/Frame_6.png",
+            "use_icon_4": 4
+          }
+        },
+        "custom_menu_WMMepC": {
+          "type": "custom_menu",
+          "settings": {
+            "bottomless_menu": "bottomless-menu-2",
+            "use_icons_as_bullets": false
+          }
+        }
+      },
+      "block_order": [
+        "right_column_mmenu_TWwk7L",
+        "left_mega_menu_desktop_q8CgD8",
+        "shop_grid_k9NkEf",
+        "custom_menu_pDeFPy",
+        "custom_menu_WMMepC"
+      ],
+      "settings": {
+        "logo_position": "middle-left",
+        "menu": "main-menu-bottomless",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "reduce-logo-size",
+        "show_line_separator": false,
+        "color_scheme": "scheme-2",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "enable_customer_avatar": true,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "padding_top": 4,
+        "padding_bottom": 0,
+        "mega_menu_trigger": "Products",
+        "use_custom_mobile_menu_bottomless": true,
+        "mmenu_background_color": "#f2f7f8",
+        "use_custom_separator_line": true
+      }
+    },
+    "z_custom_liquid_6FKUeL": {
+      "type": "z-custom-liquid",
+      "disabled": true,
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{% unless page.handle == 'rootedwings' or page.handle == 'next' or page.handle == 'problem' or page.handle == 'classwallet' or page.handle =='kirk' or collection.handle == 'classwallet' or page.handle == 'gift-guide' or page.handle =='sale'%}\n  <div style=\"background-color: #04AED8; text-align: center; margin: 0; padding: 0; line-height: 0;\">\n    <a href=\"https://tuttletwins.com/pages/sale\" style=\"display: block; margin: 0; padding: 0;\">\n      <img\n        src=\"https://cdn.shopify.com/s/files/1/0655/8951/0282/files/Web_2400_x_200_px.png?v=1769793863\"\n        alt=\"Description of image\"\n        class=\"responsive-banner desktop-only\"\n      >\n      <img\n        src=\"https://cdn.shopify.com/s/files/1/0655/8951/0282/files/Web_900_x_250_px.png?v=1769793863\"\n        alt=\"Description of mobile image\"\n        class=\"responsive-banner mobile-only\"\n      >\n    </a>\n  </div>\n\n  <style>\n    .responsive-banner {\n      display: block;\n      width: 100%;\n      max-width: 100%;\n      margin: 0;\n      padding: 0;\n      border: 0;\n    }\n\n    .desktop-only {\n      display: none;\n    }\n\n    .mobile-only {\n      display: block;\n    }\n\n    @media (min-width: 768px) {\n      .desktop-only {\n        display: block;\n      }\n      .mobile-only {\n        display: none;\n      }\n    }\n  </style>\n{% endunless %}",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "z_custom_liquid_VUUxeY": {
+      "type": "z-custom-liquid",
+      "disabled": true,
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{% unless page.handle == 'rootedwings' or page.handle == 'next' or page.handle == 'problem' or page.handle == 'classwallet' or page.handle =='kirk' or collection.handle == 'classwallet' or page.handle == 'gift-guide' or page.handle =='sale'%}\n  <div style=\"background-color: #04AED8; text-align: center; margin: 0; padding: 0; line-height: 0;\">\n    <a href=\"https://tuttletwins.com/pages/sale\" style=\"display: block; margin: 0; padding: 0;\">\n      <img\n        src=\"{{ 'Feb626-Flash-Sale-desktop.png' | asset_img_url: '3600x' }}\"\n        alt=\"Description of image\"\n        class=\"responsive-banner desktop-only\"\n      >\n      <img\n        src=\"{{ 'Feb626-Flash-Sale-mobile.png' | asset_img_url: '800x' }}\"\n        alt=\"Description of mobile image\"\n        class=\"responsive-banner mobile-only\"\n      >\n    </a>\n  </div>\n\n  <style>\n    .responsive-banner {\n      display: block;\n      width: 100%;\n      max-width: 100%;\n      margin: 0;\n      padding: 0;\n      border: 0;\n    }\n\n    .desktop-only {\n      display: none;\n    }\n\n    .mobile-only {\n      display: block;\n    }\n\n    @media (min-width: 768px) {\n      .desktop-only {\n        display: block;\n      }\n      .mobile-only {\n        display: none;\n      }\n    }\n  </style>\n{% endunless %}",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "z_announcement_bar_LKK6Jf",
+    "header",
+    "z_custom_liquid_6FKUeL",
+    "z_custom_liquid_VUUxeY"
+  ]
+}

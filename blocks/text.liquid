@@ -1,0 +1,153 @@
+{%- style -%}
+  .ssky-text-block__text-{{block.id}} {
+    margin-top: {{ block.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ block.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }  
+  .ssky-text-block__text-{{block.id}} p {
+    color:{{ block.settings.custom_color }};
+  }
+  @media screen and (min-width: 750px) {
+    .ssky-text-block__text-{{block.id}} {
+      margin-top: {{ block.settings.margin_top }}px;
+      margin-bottom: {{ block.settings.margin_bottom }}px;
+    }
+  }
+  {% if block.settings.custom_css != blank %}
+    {% assign tt_css = '.ssky-text-block__text-' | append: block.id %}
+    {{ block.settings.custom_css | replace: '[TT_CSS]', tt_css }}
+  {% endif %}
+{%- endstyle -%}
+<div class="ssky-text-block__text ssky-text-block__text-{{block.id}} rte text-{{ block.settings.text_size }} weight-{{ block.settings.text_weight }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }}>
+  <div class="rte {{ block.settings.alignment }}" style="max-width:{{ block.settings.max_width }}rem;margin-inline: auto;">
+    {{ block.settings.text }}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Text",
+    "settings": [
+      {
+        "type": "range",
+        "id": "max_width",
+        "min": 56,
+        "max": 120,
+        "step": 1,
+        "label": "t:sections.ssky_text_block.blocks.text.settings.max_width.label",
+        "default": 100,
+        "info": "t:sections.ssky_text_block.blocks.text.settings.max_width.info"
+      },
+      {
+        "type": "color",
+        "id": "custom_color",
+        "label": "Custom text color"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "label": "Text alignment"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "t:sections.ssky_text_block.blocks.text.settings.text.label",
+        "default": "t:sections.ssky_text_block.blocks.text.settings.text.default"
+      },
+      {
+        "type": "select",
+        "id": "text_size",
+        "options": [
+          {
+            "value": "regular",
+            "label": "t:sections.all.text_size.options__0.label"
+          },
+          {
+            "value": "medium",
+            "label": "t:sections.all.text_size.options__1.label"
+          },
+          {
+            "value": "large",
+            "label": "t:sections.all.text_size.options__2.label"
+          },
+          {
+            "value": "extra-large",
+            "label": "t:sections.all.text_size.options__3.label"
+          },
+          {
+            "value": "extra-extra-large",
+            "label": "t:sections.all.text_size.options__4.label"
+          }
+        ],
+        "default": "regular",
+        "label": "t:sections.all.text_size.label"
+      },
+      {
+        "type": "select",
+        "id": "text_weight",
+        "options": [
+          {
+            "value": "regular",
+            "label": "t:sections.all.text_weight.options__0.label"
+          },
+          {
+            "value": "medium",
+            "label": "t:sections.all.text_weight.options__1.label"
+          },
+          {
+            "value": "semibold",
+            "label": "t:sections.all.text_weight.options__2.label"
+          },
+          {
+            "value": "bold",
+            "label": "t:sections.all.text_weight.options__3.label"
+          }
+        ],
+        "default": "regular",
+        "label": "t:sections.all.text_weight.label"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 20
+      },
+      {
+        "type": "liquid",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Always use prefix [TT_CSS] for every CSS example [TT_CSS] .class {margin: 0}. [TT_CSS] will generate block dynamic ID"
+      }
+    ],
+    "presets": [
+      { "name": "Text" }
+    ]
+  }
+{% endschema %}
