@@ -23,6 +23,7 @@
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
+  {{ 'custom-card-product.css' | asset_url | stylesheet_tag }}
 
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
@@ -182,8 +183,8 @@
           <div class="card__information">
             {% if card_product.metafields.custom.recommended_ages.value != blank %}
               <span
-                class="caption-large light"
-                style="color: {{ card_product.metafields.custom.custom_collection_tag_color }}; background-color: {{ card_product.metafields.custom.custom_collection_tag_color }}4C; padding: 4px 8px; border-radius: 100px;"
+                class="caption-large light dc_age-tag"
+                style="color: {{ card_product.metafields.custom.custom_collection_tag_color }}; background-color: {{ card_product.metafields.custom.custom_collection_tag_color }}26;"
               >
                 {{- card_product.metafields.custom.custom_collection_age_tag.value -}}
               </span>
