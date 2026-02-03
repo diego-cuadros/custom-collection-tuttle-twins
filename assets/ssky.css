@@ -174,13 +174,12 @@ img {
   border-radius: 15px;
   border: 2px solid #04aed8;
 }
-/*
 .product-grid:not(.ssky-hide-text-content) .grid__item:hover .card__inner,
 .product-grid:not(.ssky-hide-text-content)
   .grid__item:hover
   .card__information {
   opacity: 0.6;
-}*/
+}
 .product-grid:not(.ssky-hide-text-content)
   .grid__item
   .ssky-card-product-price {
