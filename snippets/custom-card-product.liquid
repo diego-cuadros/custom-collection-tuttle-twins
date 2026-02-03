@@ -253,6 +253,10 @@
                 price_class: 'ssky-card-product-price',
                 show_compare_at_price: true
               %}
+
+              <div>
+                {{ card_product.metafields.custom.custom_collection_description | metafield_tag }}
+              </div>
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants.size == 1 and quick_add == 'bulk' %}
                   {% liquid
@@ -418,7 +422,7 @@
                     >
                       <span>
                         {%- if card_product.selected_or_first_available_variant.available -%}
-                          {{ 'products.product.add_to_cart' | t }}
+                          {{ 'products.product.shop_now' | t }}
                         {%- else -%}
                           {{ 'products.product.sold_out' | t }}
                         {%- endif -%}
